@@ -7,27 +7,37 @@ public abstract class Conta  implements iConta{
     protected int agencia;
     protected int numero;
     protected double saldo;
+    protected Cliente cliente;
 
-    public Conta() {
-        this.agencia = Conta.AGENCIA_PADRAO;
-        this.numero = SEQUENCIAL++;
+    public Conta(Cliente cliente) {
+        agencia = Conta.AGENCIA_PADRAO;
+        numero = SEQUENCIAL++;
+        this.cliente = cliente;
     }
 
-    public void sacar(){
+
+    @Override
+    public void sacar(double valor) {
+        saldo -= valor;
 
     }
 
-    public void depositar(){
-
+    @Override
+    public void depositar(double valor) {
+        saldo += valor;
     }
 
-    public void transferir(){
-
+    @Override
+    public void transferir(double valor, Conta contaDestino) {
+        this.sacar(valor);
+        contaDestino.depositar(valor);
     }
+
 
 
     public int getAgenica() {
-        return agencia;
+
+        return 0;
     }
 
     public int getNumero() {
@@ -38,18 +48,12 @@ public abstract class Conta  implements iConta{
         return saldo;
     }
 
-    @Override
-    public void sacar(double valor) {
-
+    protected void imprimirInfoComuns() {
+        System.out.println(String.format("Titular: %s", cliente.getNome()));
+        System.out.println(String.format("Agência: %d", agencia));
+        System.out.println(String.format("Número: %d", numero));
+        System.out.println(String.format("Saldo: %.2f", saldo));
     }
 
-    @Override
-    public void depositar(double valor) {
 
-    }
-
-    @Override
-    public void transferir(double valor, Conta contaDestino) {
-
-    }
 }
